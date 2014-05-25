@@ -1,40 +1,31 @@
 
 // Point manager
 
-Template.point.helpers({
+Template.point.selected = function () {
+  var id = Session.get("selected_point_id");
 
-  color: function () {
-    var rgb = [this.x, this.y, this.r],
-        canvas = document.createElement("canvas"),
-        ctx = canvas.getContext('2d');
-
-    _.map(rgb, function (d) {
-
-    });
-    ctx.fillStyle = "rgb(" + rgb.join(",") + ")";
-
-    return ctx.fillStyle;
-  },
-
-  fill: function () {
-    var selected_id = Session.get("selected_point_id");
-
-    if (this._id == selected_id) {
-      return {"fill": "blue"};
-    }
-    return {"fill": "transparent"};
-  }
-
-});
+  if (this._id == id)
+    return {
+      "stroke": "black",
+      "stroke-dasharray": "4, 6",
+      "stroke-width": 4
+    };
+}
 
 Template.point.events({
 
   "click circle": function (event, template) {
+    event.stopPropagation();
+    event.preventDefault();
     Session.set("selected_point_id", this._id);
 
-    Points.upsert(this._id, {
-      "$set": {"r": this.r + 1}
+    Points.update(this._id, {
+      "$set": {"r": this.r + 5}
     });
+
+    if (this.vanish()) {
+      Session.set("selected_point_id", null);
+    }
   }
 
 });

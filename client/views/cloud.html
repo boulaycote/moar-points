@@ -1,0 +1,23 @@
+
+<!-- Points Template -->
+
+<template name="cloud">
+
+  <div>
+
+    <div class="actions">
+      <input type="button" id="clear" value="clear">
+      {{#if current}}
+        <input type="button" id="remove" value="remove {{current}}">
+      {{/if}}
+    </div>
+
+    <svg width="100%" height="100%">
+      {{#each points}}
+        {{> point}}
+      {{/each}}
+    </svg>
+
+  </div>
+
+</template>
