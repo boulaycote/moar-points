@@ -16,10 +16,9 @@ Template.cloud.events({
     var x = event.offsetX,
         y = event.offsetY;
 
-    Points.insert({
-      "x": x,
-      "y": y,
-      "r": 10
+    Points.insert({"x": x, "y": y, "r": 10}, function (err, res) {
+      if (!err)
+        Session.set("selected_point_id", res);
     });
   },
 
